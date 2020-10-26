@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-auto main (int airgc, char* argv[]) ->
+auto main (int airgc, char* argv[]) -> int
 {
     auto const a = std::stoi (argv[1]);
     auto const b = std::stoi (argv[2]);
