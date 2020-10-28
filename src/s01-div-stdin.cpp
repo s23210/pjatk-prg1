@@ -1,8 +1,9 @@
 #include <iostream>
 #include <string>
+
 auto ask_user_for_integer(std::string prompt) -> int
 {
-    std::cout << prompt << " INTEGER:";
+    std::cout << prompt << "int:";
     auto n = std::string{};
     std::getline(std::cin, n);
     return std::stoi(n);
@@ -15,3 +16,4 @@ auto main() -> int
     std::cout << (a / b) << "\n";
     return 0;
 }
+
