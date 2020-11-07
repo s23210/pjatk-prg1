@@ -7,4 +7,3 @@ auto main(int, char* argv[]) -> int
     std::cout << (a - b) << "\n";
     return 0;
 }
-

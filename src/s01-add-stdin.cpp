@@ -16,4 +16,3 @@ auto main() -> int
     std::cout << (a + b) << "\n";
     return 0;
 }
-
