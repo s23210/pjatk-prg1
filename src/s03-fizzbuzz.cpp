@@ -1,25 +1,23 @@
 #include <iostream>
-#include <string>
-using namespace std;
 
 auto main(int, char* argv[]) -> int
 {
-    auto n = stoi(argv[1]);
+    auto n = std::stoi(argv[1]);
     for (auto i = 1; i <= n; ++i) {
         auto a = i % 3;
         auto b = i % 5;
-        cout << endl << i;
+        std::cout << i;
         if (a == 0 && b == 0) {
-            cout << "FizzBuzz";
+            std::cout << " FizzBuzz";
         } else {
             if (a == 0) {
-                cout << "Fizz";
+                std::cout << " Fizz";
             }
             if (b == 0) {
-                cout << "Buzz";
+                std::cout << " Buzz";
             }
         }
+        std::cout << "\n";
     }
-    cout << endl;
     return 0;
 }
