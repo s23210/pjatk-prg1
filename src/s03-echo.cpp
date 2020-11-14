@@ -38,9 +38,10 @@ auto main(int argc, char* argv[]) -> int
     if (std::string(argv[1]) != "-n" && std::string(argv[1]) != "-r"
         && std::string(argv[1]) != "-l") {
         for (int i = 1; i < argc; ++i) {
-            printf("%s ", argv[i]);
+            std::cout << argv[i] << " ";
         }
-        printf("\n");
+        std::cout << "\n";
     }
+
     return 0;
 }
