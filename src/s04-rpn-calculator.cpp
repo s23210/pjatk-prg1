@@ -1,12 +1,13 @@
+#include <math.h>
+
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <iterator>
 #include <stack>
 #include <stdexcept>
 #include <string>
 #include <vector>
-#include <math.h>
-#include <cmath>
 
 auto pop_top(std::stack<double>& stack) -> double
 {

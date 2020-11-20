@@ -11,11 +11,13 @@ auto ask_user_for_password() -> std::string
 
 auto main(int, char* argv[]) -> int
 {
-    auto password = std::string{argv[1]};    
+    auto password    = std::string{argv[1]};
     auto password_in = ask_user_for_password();
     while (password != password_in) {
         auto password_in = ask_user_for_password();
-        if(password == password_in){break;}
+        if (password == password_in) {
+            break;
+        }
     }
     return 0;
 }
