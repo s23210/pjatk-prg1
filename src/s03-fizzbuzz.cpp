@@ -5,6 +5,7 @@ auto main(int argc, char* argv[]) -> int
     if (argc == 1) {
         std::cerr << "no argument given on cmd"
                   << "\n";
+        return 1;
     }
 
     auto n = std::stoi(argv[1]);
