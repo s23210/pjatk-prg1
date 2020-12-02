@@ -13,9 +13,10 @@ struct Student {
     float average;
 
     auto to_string() const -> std::string;
-    
+
+    Student(std::string, std::string, int, int, float);
 };
 
-}
+}  // namespace s23210
 
 #endif
