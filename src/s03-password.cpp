@@ -11,7 +11,7 @@ auto ask_user_for_password() -> std::string
 
 auto main(int, char* argv[]) -> int
 {
-    auto password = std::string{argv[1]};
+    auto const password = std::string{argv[1]};
     while (password != ask_user_for_password())
         ;
     return 0;
