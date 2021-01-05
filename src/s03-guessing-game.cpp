@@ -29,9 +29,7 @@ auto main() -> int
         }
         in = ask_user_for_integer();
     }
-    if (in == n) {
-        std::cout << "you're correct"
-                  << "\n";
-    }
+    std::cout << "you're correct"
+              << "\n";
     return 0;
 }
