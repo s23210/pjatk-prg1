@@ -11,8 +11,8 @@ auto main(int argc, char* argv[]) -> int
     auto n = std::stoi(argv[1]);
 
     for (auto i = 1; i <= n; ++i) {
-        auto a = i % 3;
-        auto b = i % 5;
+        auto const a = i % 3;
+        auto const b = i % 5;
         std::cout << i << " ";
         if (a == 0) {
             std::cout << "Fizz";
