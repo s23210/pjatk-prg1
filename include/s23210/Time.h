@@ -8,9 +8,9 @@ namespace s23210 {
 enum class Time_of_day {morning, day, evening, night};
 
 struct Time {
-    unsigned hour;
-    unsigned minute;
-    unsigned second;
+    int hour;
+    int minute;
+    int second;
 
     auto to_string() const -> std::string;
 
@@ -40,11 +40,9 @@ struct Time {
 
     auto count_minutes() const -> uint64_t;
 
-//    auto time_to_midnight() const -> Time;
-//
-//    auto to_string(t0) -> std::string;
-//
-    Time(unsigned, unsigned, unsigned);
+    auto time_to_midnight(Time const&) const -> Time;
+
+    Time(int, int, int);
 };
 
 }  // namespace s23210
