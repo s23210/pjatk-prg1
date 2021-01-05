@@ -11,14 +11,11 @@ auto main(int argc, char* argv[]) -> int
 
     auto i = std::stoi(argv[1]);
 
-    if (i > 0) {
-        for (i = std::stoi(argv[1]); i >= 0; --i) {
-            std::cout << i << "\n";
-        }
-    } else
-        for (i = std::stoi(argv[1]); i <= 0; ++i) {
-            std::cout << i << "\n";
-        }
+    for (i = std::stoi(argv[1]); i != 0; (i > 0) ? --i : ++i) {
+        std::cout << i << "\n";
+    }
+
+    std::cout << "0\n";
 
     return 0;
 }
