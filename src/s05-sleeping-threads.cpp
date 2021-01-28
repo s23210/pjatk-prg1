@@ -21,12 +21,12 @@ auto print(int const id, std::queue<std::string>& q, std::mutex& m) -> void
         q.pop();
 
         if (x.empty()) {
-            std::cout << "thread " << id << " exiting" << "\n";
+            std::cout << "thread " << id << " exiting"
+                      << "\n";
             return;
         }
 
-        std::cout << "from thread " << id << ": "
-                  << x << "\n";
+        std::cout << "from thread " << id << ": " << x << "\n";
     }
 }
 

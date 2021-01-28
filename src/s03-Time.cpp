@@ -87,7 +87,8 @@ auto Time::operator+(Time const& time_o) const -> Time
         s = second + time_o.second - 60;
         m++;
     } else {
-        s = second + time_o.second;}
+        s = second + time_o.second;
+    }
     if (minute + time_o.minute > 59) {
         m = m + minute + time_o.minute - 60;
         h++;
@@ -111,16 +112,19 @@ auto Time::operator-(Time const& time_o) const -> Time
         s = 60 + second - time_o.second;
         m--;
     } else {
-        s = second - time_o.second;}
+        s = second - time_o.second;
+    }
     if (minute - time_o.minute < 0) {
         m = 60 + m + minute - time_o.minute;
         h--;
     } else {
-        m = minute - time_o.minute;}
+        m = minute - time_o.minute;
+    }
     if (hour - time_o.hour < 0) {
         h = h + (hour - time_o.hour + 24) % 24;
     } else {
-        h = hour + time_o.hour;}
+        h = hour + time_o.hour;
+    }
 
     auto n_time = Time(h, m, s);
 
@@ -134,11 +138,11 @@ auto Time::operator<(Time const& time_o) const -> bool
     } else if (hour == time_o.hour && minute < time_o.minute) {
         return true;
     } else if (hour == time_o.hour && minute == time_o.minute
-             && second < time_o.second) {
+               && second < time_o.second) {
         return true;
     } else {
         return false;
-        }
+    }
 }
 
 auto Time::operator>(Time const& time_o) const -> bool
@@ -148,11 +152,11 @@ auto Time::operator>(Time const& time_o) const -> bool
     } else if (hour == time_o.hour && minute > time_o.minute) {
         return true;
     } else if (hour == time_o.hour && minute == time_o.minute
-             && second > time_o.second) {
+               && second > time_o.second) {
         return true;
     } else {
         return false;
-        }
+    }
 }
 
 auto Time::operator==(Time const& time_o) const -> bool
@@ -162,12 +166,12 @@ auto Time::operator==(Time const& time_o) const -> bool
         return true;
     } else {
         return false;
-        }
+    }
 }
 
 auto Time::operator!=(Time const& other) const -> bool
 {
-    return !(*this==other);
+    return !(*this == other);
 }
 
 auto Time::count_seconds() const -> uint64_t
