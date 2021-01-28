@@ -46,14 +46,18 @@ auto Time::to_string() const -> std::string
 
 auto Time::time_of_day() const -> Time_of_day
 {
-    if (hour >= 7 && hour <= 11)
+    if (hour >= 7 && hour <= 11) {
         return Time_of_day::morning;
-    if (hour >= 12 && hour <= 16)
+    }
+    if (hour >= 12 && hour <= 16) {
         return Time_of_day::day;
-    if ((hour >= 17 && hour <= 23) || (hour == 0))
+    }
+    if ((hour >= 17 && hour <= 23) || (hour == 0)) {
         return Time_of_day::evening;
-    if (hour >= 1 && hour <= 6)
+    }
+    if (hour >= 1 && hour <= 6) {
         return Time_of_day::night;
+    }
     return Time_of_day::morning;
 }
 
@@ -82,8 +86,8 @@ auto Time::operator+(Time const& time_o) const -> Time
     if (second + time_o.second > 59) {
         s = second + time_o.second - 60;
         m++;
-    } else
-        s = second + time_o.second;
+    } else {
+        s = second + time_o.second;}
     if (minute + time_o.minute > 59) {
         m = m + minute + time_o.minute - 60;
         h++;
@@ -106,17 +110,17 @@ auto Time::operator-(Time const& time_o) const -> Time
     if (second - time_o.second < 0) {
         s = 60 + second - time_o.second;
         m--;
-    } else
-        s = second - time_o.second;
+    } else {
+        s = second - time_o.second;}
     if (minute - time_o.minute < 0) {
         m = 60 + m + minute - time_o.minute;
         h--;
-    } else
-        m = minute - time_o.minute;
+    } else {
+        m = minute - time_o.minute;}
     if (hour - time_o.hour < 0) {
         h = h + (hour - time_o.hour + 24) % 24;
-    } else
-        h = hour + time_o.hour;
+    } else {
+        h = hour + time_o.hour;}
 
     auto n_time = Time(h, m, s);
 
@@ -125,46 +129,45 @@ auto Time::operator-(Time const& time_o) const -> Time
 
 auto Time::operator<(Time const& time_o) const -> bool
 {
-    if (hour < time_o.hour)
+    if (hour < time_o.hour) {
         return true;
-    else if (hour == time_o.hour && minute < time_o.minute)
+    } else if (hour == time_o.hour && minute < time_o.minute) {
         return true;
-    else if (hour == time_o.hour && minute == time_o.minute
-             && second < time_o.second)
+    } else if (hour == time_o.hour && minute == time_o.minute
+             && second < time_o.second) {
         return true;
-    else
+    } else {
         return false;
+        }
 }
 
 auto Time::operator>(Time const& time_o) const -> bool
 {
-    if (hour > time_o.hour)
+    if (hour > time_o.hour) {
         return true;
-    else if (hour == time_o.hour && minute > time_o.minute)
+    } else if (hour == time_o.hour && minute > time_o.minute) {
         return true;
-    else if (hour == time_o.hour && minute == time_o.minute
-             && second > time_o.second)
+    } else if (hour == time_o.hour && minute == time_o.minute
+             && second > time_o.second) {
         return true;
-    else
+    } else {
         return false;
+        }
 }
 
 auto Time::operator==(Time const& time_o) const -> bool
 {
     if (hour == time_o.hour && minute == time_o.minute
-        && second == time_o.second)
+        && second == time_o.second) {
         return true;
-    else
+    } else {
         return false;
+        }
 }
 
-auto Time::operator!=(Time const& time_o) const -> bool
+auto Time::operator!=(Time const& other) const -> bool
 {
-    if ((hour != time_o.hour) | (minute != time_o.minute)
-        | (second != time_o.second))
-        return true;
-    else
-        return false;
+    return !(*this==other);
 }
 
 auto Time::count_seconds() const -> uint64_t
