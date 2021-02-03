@@ -39,12 +39,12 @@ auto main() -> int
     auto fdname = std ::string{"student.txt"};
     auto fd     = open(fdname.c_str(), O_CREAT | O_RDWR, S_IRUSR | S_IWUSR);
 
-    std ::array<char, 4096> buf{0};
+    std::array<char, 4096> buf{0};
     auto const n = read(fd, buf.data(), buf.size());
     if (n == -1) {
         perror("Something went wrong");
     } else {
-        std ::cout << std ::string{buf.data(), static_cast<size_t>(n)};
+        std::cout << std::string{buf.data(), static_cast<size_t>(n)};
     }
 
     close(fd);
