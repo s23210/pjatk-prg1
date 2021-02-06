@@ -56,6 +56,7 @@ auto main() -> int
         }
         std::lock_guard<std::mutex> lg{m};
         q.push(s);
+        m.unlock();
         cv.notify_one();
     }
 
