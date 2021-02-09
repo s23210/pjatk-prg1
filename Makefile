@@ -12,7 +12,8 @@ CXXINCLUDES=\
 CXXFLAGS=\
 		 -std=$(CXXSTD) \
 		 $(CXXWARNINGS) \
-		 $(CXXINCLUDES)
+		 $(CXXINCLUDES) \
+         -g
 
 all:\
 	build/00-hello-world.bin \

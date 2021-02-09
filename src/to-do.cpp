@@ -1,14 +1,15 @@
 //#include <to-do-list.h>
-#include <array>
-#include <sys/stat.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <sys/stat.h>
+#include <unistd.h>
+
+#include <array>
 #include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <string>
-#include <ctime>
 #include <vector>
-#include <unistd.h>
 
 auto check(const std::string& text) -> std::string
 {
@@ -22,49 +23,40 @@ auto check(const std::string& text) -> std::string
 
 auto newtask() -> std::string
 {
-//    auto use_this_editor = getenv("EDITOR");
-//
-//    auto data_file_path = std::string{"/tmp/KRZYSZTOF_TMP_FILE"};
-//    auto launch_editor = std::string{use_this_editor} + " " + data_file_path;
-//    system(launch_editor.c_str());
-//
-//    unlink(data_file_path.c_str());
+    auto use_this_editor = getenv("EDITOR");
 
-//std::string filename = "/tmp/KRZYSZTOF_TMP_FILE";
-//std::string cmd = "/usr/bin/vim " + filename;
-//system(cmd.c_str());
-//// read from filename
+    auto data_file_path = std::string{"/tmp/KRZYSZTOF_TMP_FILE"};
+    auto launch_editor  = std::string{use_this_editor ? use_this_editor : "vim"}
+                         + " " + data_file_path;
+    system(launch_editor.c_str());
 
-    auto filename = std::string{"/tmp/KRZYSZTOF_TMP_FILE"};
-    auto cmd = "/usr/bin/vim " + filename;
-    system(cmd.c_str());
-
-    auto fd = open(filename.c_str(), O_RDWR, S_IRUSR | S_IWUSR);
+    auto fd = open(data_file_path.c_str(), O_RDWR, S_IRUSR | S_IWUSR);
 
     std::array<char, 4096> buf{0};
     auto const n = read(fd, buf.data(), buf.size());
+    close(fd);
+
+    unlink(data_file_path.c_str());
+
     if (n == -1) {
-//        perror("Something went wrong");
         std::cerr << "Empty task message"
                   << "\n";
-    } else {
-        time_t czas; //tworzenie zmiennej przechowującej czas
-        time(&czas); //pobranie do niej czasu
-        std::cout << "New task created:\n" << ctime(&czas) << "\n" << std::string{buf.data(), static_cast<size_t>(n)};
-//        time_t czas; //tworzenie zmiennej przechowującej czas
-//        time(&czas); //pobranie do niej czasu
-//        std::cout<<"Task created: "<<ctime(&czas)<<"\n"; //przetworzenie czasu funkcją ctime na ciąg znaków char
+        exit(1);
     }
+
+    time_t czas;  // tworzenie zmiennej przechowującej czas
+    time(&czas);  // pobranie do niej czasu
+    std::cout << "New task created:\n"
+              << ctime(&czas) << "\n"
+              << std::string{buf.data(), static_cast<size_t>(n)};
+    //        time_t czas; //tworzenie zmiennej przechowującej czas
+    //        time(&czas); //pobranie do niej czasu
+    //        std::cout<<"Task created: "<<ctime(&czas)<<"\n";
+    //        //przetworzenie czasu funkcją ctime na ciąg znaków char
 
     auto task = std::string{buf.data(), static_cast<size_t>(n)};
 
-    close(fd);
-
-    unlink(filename.c_str());
-
     return task;
-
-
 }
 
 auto print(std::vector<std::string> tasks) -> void
@@ -85,8 +77,11 @@ auto main(int argc, char* argv[]) -> int
 
     auto tasks = std::vector<std::string>{};
 
-    if (std::string(argv[1]) == "commit") {
+    if (std::string(argv[1]) == "add") {
         tasks.push_back(newtask());
+    }
+
+    if (std::string(argv[1]) == "remove") {
     }
 
     if (std::string(argv[1]) == "list") {
@@ -94,11 +89,9 @@ auto main(int argc, char* argv[]) -> int
     }
 
     if (std::string(argv[1]) == "check") {
-        
     }
 
     if (std::string(argv[1]) == "uncheck") {
-        
     }
 
     std::cout << check("strikethrough") << "\n";
