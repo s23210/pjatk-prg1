@@ -201,10 +201,6 @@ auto newtask() -> void
 
     std::cout << "New task created:\n";
     list(id);
-    //        time_t czas; //tworzenie zmiennej przechowującej czas
-    //        time(&czas); //pobranie do niej czasu
-    //        std::cout<<"Task created: "<<ctime(&czas)<<"\n";
-    //        //przetworzenie czasu funkcją ctime na ciąg znaków char
 }
 
 auto edittask(int line) -> void
