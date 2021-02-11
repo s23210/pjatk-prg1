@@ -332,7 +332,7 @@ auto main(int argc, char* argv[]) -> int
                 list(i);
             }
         } else {
-           list(std::stoi(argv[2]));
+            list(std::stoi(argv[2]));
         }
     }
 
