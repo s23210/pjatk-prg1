@@ -1,13 +1,14 @@
 #include <arpa/inet.h>
+#include <fcntl.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include <unistd.h>
+
 #include <array>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 
 auto main() -> int
 {
@@ -27,15 +28,16 @@ auto main() -> int
     std::cout << "listening on " << ip << ": " << port << "\n...\n";
 
     while (true) {
-        auto client = accept(sock, nullptr, nullptr);    
+        auto client = accept(sock, nullptr, nullptr);
         std::cout << "client fd " << client << "\n";
         std::array<char, 4096> filename{0};
         auto const n = read(client, filename.data(), filename.size());
         if (n == -1) {
-            perror (" read (2)");
+            perror(" read (2)");
         } else {
-            std :: cout << std :: string { filename. data (), static_cast <size_t >(n)};
-        auto name = std::string{filename.data(), static_cast<size_t>(n-1)};
+            std ::cout << std ::string{filename.data(), static_cast<size_t>(n)};
+            auto name =
+                std::string{filename.data(), static_cast<size_t>(n - 1)};
             auto fd = open(name.c_str(), O_RDONLY, S_IRUSR);
             std::array<char, 4096> buf{0};
             auto const data_size = read(fd, buf.data(), buf.size());
