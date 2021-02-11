@@ -50,9 +50,9 @@ auto list(int n) -> void
             std::cout << "================================================\n"
                       << "ID: " << record.at(0) << "\nDATE: " << record.at(2)
                       << "\nDONE: " << (record.at(3) == "0" ? "[ ]" : "[*]")
-                      << "\n------------------------------------------------\n"
+                      << "\n================================================\n"
                       << join(split(record.at(1), '`'), '\n')
-                      << "\n================================================\n";
+                      << "================================================\n";
         }
     }
 }
@@ -207,17 +207,57 @@ auto newtask() -> void
     //        //przetworzenie czasu funkcją ctime na ciąg znaków char
 }
 
-// auto edittask(int n}) -> void
-//{
-//
-//}
+auto edittask(int line) -> void
+{
+    auto sourcefile           = std::string{"tasks.txt"};
+    const char* sourcefileptr = sourcefile.c_str();
+    std::ifstream infile;
+    char tempPath[100] = "/tmp/EDIT_TASK_TMP_FILE";
+    infile.open(sourcefile, std::ios::in);
+
+    if (infile) {
+        int numLine = countLine(sourcefileptr);
+        if (numLine < line) {
+            std::cout << "\nNo task to edit.\n";
+            return;
+        }
+        auto newMessage = openEditor();
+
+        for (long unsigned int i = 0; i < newMessage.length(); i++) {
+            if (newMessage[i] == '\n') {
+                newMessage[i] = '`';
+            }
+        }
+
+        std::ofstream outfile;
+        outfile.open(tempPath, std::ios::out);
+
+        char data[100];
+        int i = 0;
+
+        while (infile.getline(data, 100)) {
+            i++;
+            if (i == line) {
+                auto temp  = split(data, ';');
+                temp.at(1) = newMessage;
+                strcpy(data, join(temp, ';').c_str());
+            }
+            outfile << data << "\n";
+        }
+        outfile.close();
+    }
+
+    infile.close();
+    remove(sourcefileptr);
+    rename(tempPath, sourcefileptr);
+}
 
 auto check(bool check, int line) -> void
 {
     auto sourcefile           = std::string{"tasks.txt"};
     const char* sourcefileptr = sourcefile.c_str();
     std::ifstream infile;
-    char tempPath[100] = "/tmp/REMOVE_LINE_TMP_FILE";
+    char tempPath[100] = "/tmp/CHECK/UNCHECK__TMP_FILE";
     infile.open(sourcefile, std::ios::in);
 
     if (infile) {
@@ -262,6 +302,15 @@ auto main(int argc, char* argv[]) -> int
         newtask();
     }
 
+    if (std::string(argv[1]) == "edit") {
+        if (argc == 2) {
+            std::cerr << "No task given to edit"
+                      << "\n";
+            return 1;
+        }
+        edittask(std::stoi(argv[2]));
+    }
+
     if (std::string(argv[1]) == "remove") {
         if (argc == 2) {
             std::cerr << "No task given to remove"
@@ -274,7 +323,21 @@ auto main(int argc, char* argv[]) -> int
     }
 
     if (std::string(argv[1]) == "list") {
-        list(std::stoi(argv[2]));
+        if (argc == 2) {
+            std::cerr << "No task given to list"
+                      << "\n";
+            return 1;
+        }
+        auto filename           = std::string{"tasks.txt"};
+        const char* filenameptr = filename.c_str();
+        if (std::string(argv[2]) == "all") {
+            auto n = countLine(filenameptr);
+            for (auto i = 1; i <= n; ++i) {
+                list(i);
+            }
+        } else {
+           list(std::stoi(argv[2]));
+        }
     }
 
     if (std::string(argv[1]) == "check") {
@@ -288,7 +351,7 @@ auto main(int argc, char* argv[]) -> int
 
     if (std::string(argv[1]) == "uncheck") {
         if (argc == 2) {
-            std::cerr << "No task given to ucheck"
+            std::cerr << "No task given to uncheck"
                       << "\n";
             return 1;
         }
