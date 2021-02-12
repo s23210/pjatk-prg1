@@ -134,6 +134,7 @@ auto removeLine(const char* sourcefile, int line) -> void
     infile.close();
     remove(sourcefile);
     rename(tempPath, sourcefile);
+    std::cout << "Task with ID: " << line << " removed.\n";
 }
 
 auto find_last_line(std::ifstream& myFile) -> std::string
@@ -150,16 +151,6 @@ auto find_last_line(std::ifstream& myFile) -> std::string
         myFile.close();
     }
     return output.substr(0, output.find(";"));
-}
-
-auto check(const std::string& text) -> std::string
-{
-    std::string result;
-    for (auto ch : text) {
-        result.append(u8"\u0336");
-        result.push_back(ch);
-    }
-    return result;
 }
 
 auto newtask() -> void
@@ -253,13 +244,12 @@ auto check(bool check, int line) -> void
     auto sourcefile           = std::string{"tasks.txt"};
     const char* sourcefileptr = sourcefile.c_str();
     std::ifstream infile;
-    char tempPath[100] = "/tmp/CHECK/UNCHECK__TMP_FILE";
+    char tempPath[100] = "/tmp/CHECK_UNCHECK__TMP_FILE";
     infile.open(sourcefile, std::ios::in);
 
     if (infile) {
         int numLine = countLine(sourcefileptr);
         if (numLine < line) {
-            std::cout << "\nNo task to change status\n.";
             return;
         }
 
@@ -284,10 +274,20 @@ auto check(bool check, int line) -> void
     infile.close();
     remove(sourcefileptr);
     rename(tempPath, sourcefileptr);
+
+    if (check == true) {
+        std::cout << "Task with ID: " << line << " checked.\n";
+    }
+    if (check == false) {
+        std::cout << "Task with ID: " << line << " unchecked.\n";
+    }
 }
 
 auto main(int argc, char* argv[]) -> int
 {
+    auto filename           = std::string{"tasks.txt"};
+    const char* filenameptr = filename.c_str();
+    auto n                  = countLine(filenameptr);
     if (argc == 1) {
         std::cerr << "No argument given on cmd"
                   << "\n";
@@ -312,9 +312,14 @@ auto main(int argc, char* argv[]) -> int
             std::cerr << "No task given to remove"
                       << "\n";
             return 1;
+        } else {
+            if (std::stoi(argv[2]) > n) {
+                std::cerr << "No task to remove with ID: " << std::stoi(argv[2])
+                          << "\n";
+                std::cerr << "Number of tasks to remove: " << n << "\n";
+                return 1;
+            }
         }
-        auto filename           = std::string{"tasks.txt"};
-        const char* filenameptr = filename.c_str();
         removeLine(filenameptr, std::stoi(argv[2]));
     }
 
@@ -324,14 +329,17 @@ auto main(int argc, char* argv[]) -> int
                       << "\n";
             return 1;
         }
-        auto filename           = std::string{"tasks.txt"};
-        const char* filenameptr = filename.c_str();
         if (std::string(argv[2]) == "all") {
-            auto n = countLine(filenameptr);
             for (auto i = 1; i <= n; ++i) {
                 list(i);
             }
         } else {
+            if (std::stoi(argv[2]) > n) {
+                std::cerr << "No task to list with ID: " << std::stoi(argv[2])
+                          << "\n";
+                std::cerr << "Number of tasks to list: " << n << "\n";
+                return 1;
+            }
             list(std::stoi(argv[2]));
         }
     }
@@ -341,6 +349,13 @@ auto main(int argc, char* argv[]) -> int
             std::cerr << "No task given to check"
                       << "\n";
             return 1;
+        } else {
+            if (std::stoi(argv[2]) > n) {
+                std::cerr << "No task to check with ID: " << std::stoi(argv[2])
+                          << "\n";
+                std::cerr << "Number of tasks to check: " << n << "\n";
+                return 1;
+            }
         }
         check(true, std::stoi(argv[2]));
     }
@@ -350,6 +365,13 @@ auto main(int argc, char* argv[]) -> int
             std::cerr << "No task given to uncheck"
                       << "\n";
             return 1;
+        } else {
+            if (std::stoi(argv[2]) > n) {
+                std::cerr << "No task to uncheck with ID: "
+                          << std::stoi(argv[2]) << "\n";
+                std::cerr << "Number of tasks to uncheck: " << n << "\n";
+                return 1;
+            }
         }
         check(false, std::stoi(argv[2]));
     }
